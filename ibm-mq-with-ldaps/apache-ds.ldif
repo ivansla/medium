@@ -1,0 +1,46 @@
+version: 1
+
+dn: uid=mqldapuser,o=medium-examples
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+objectClass: uidObject
+cn: mqldapuser
+sn: mqldapuser
+uid: mqldapuser
+userPassword:: e1NTSEF9Z2k4a0lFUDU5S2c5a3NaT3dKNnliU3JYR05kQkx3d2VHcEVFSkE9P
+ Q==
+
+dn: o=medium-examples
+objectclass: domain
+objectclass: extensibleObject
+objectclass: top
+dc: medium-examples
+o: medium-examples
+
+dn: cn=mqadmins,o=medium-examples
+objectClass: groupOfNames
+objectClass: top
+cn: mqadmins
+member: uid=mqexplorer,cn=mqadmins,o=medium-examples
+
+dn: o=medium-examples
+objectclass: domain
+objectclass: extensibleObject
+objectclass: top
+dc: medium-examples
+o: medium-examples
+
+dn: uid=mqexplorer,cn=mqadmins,o=medium-examples
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+objectClass: uidObject
+cn: mqexplorer
+sn: mqexplorer
+uid: mqexplorer
+userPassword:: e1NTSEF9U2ZVd2dNYWxEdkFnR1ArTEsvcnMxUG5MRll2M2VoUnhLNmNFSHc9P
+ Q==
+

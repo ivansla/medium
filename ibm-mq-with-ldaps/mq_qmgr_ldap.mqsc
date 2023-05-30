@@ -1,0 +1,21 @@
+ALTER AUTHINFO('SYSTEM.DEFAULT.AUTHINFO.IDPWLDAP') +
+AUTHTYPE(IDPWLDAP) +
+CONNAME('172.18.0.2(10636)') +
+LDAPUSER('uid=mqldapuser,o=medium-examples') +
+LDAPPWD('mqldapuser') +
+SHORTUSR('uid') +
+ADOPTCTX(YES) +
+USRFIELD('uid') +
+BASEDNU('o=medium-examples') +
+CHCKCLNT(REQUIRED) +
+CHCKLOCL(NONE) +
+CLASSUSR('inetOrgPerson') +
+AUTHORMD(SEARCHGRP) +
+BASEDNG('o=medium-examples') +
+FINDGRP(member) +
+GRPFIELD('cn') +
+CLASSGRP('groupOfNames') +
+SECCOMM(YES)
+
+ALTER QMGR CONNAUTH('SYSTEM.DEFAULT.AUTHINFO.IDPWLDAP') SSLKEYR('/home/mqm/ssl/key')
+*REFRESH SECURITY TYPE(CONNAUTH) can remain commented if you will restart MQ server

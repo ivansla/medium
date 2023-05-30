@@ -1,7 +1,7 @@
 #!/bin/bash
 
 RUNNING="(Running)"
-SLEEP_FOR_SECONDS=5
+SLEEP_FOR_SECONDS=15
 
 isRunningQM() {
   local qmgrName=$1
@@ -12,15 +12,15 @@ isRunningQM() {
   # Keep container live while Queue Manager is Running
   while [[ "${qmgrStatus}" == *"${RUNNING}"* ]]
   do
+    sleep $SLEEP_FOR_SECONDS
     echo "checking qmgr"
     qmgrStatus="$(dspmq | grep ${qmgrName} | grep ${RUNNING})"
-    sleep $SLEEP_FOR_SECONDS
   done
 }
 
 start() {
   local qmgrName=$1
-  strmqm ${qmgrName}
+  su - mqm -c "strmqm ${qmgrName}"
   isRunningQM ${qmgrName}
 }
 

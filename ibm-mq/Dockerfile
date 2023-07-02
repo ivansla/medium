@@ -15,6 +15,9 @@
 FROM ubuntu:20.04
 VOLUME /home
 
+# can solve problem for creating keystore on AMD processors. https://github.com/ibm-messaging/mq-container/issues/462
+ENV ICC_SHIFT=3
+
 RUN groupadd --gid 1000 mqm
 RUN groupadd --gid 2000 mqexplorers
 RUN useradd --uid 1000 --gid mqm -s /bin/bash --create-home --home-dir /home/mqm mqm
@@ -78,5 +81,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 COPY --chmod=500 mq-setup.sh /home/mqm/mq-setup.sh
 COPY --chmod=500 mq-start.sh /home/mqm/mq-start.sh
 COPY --chmod=444 mq-setup.mqsc /home/mqm/mq-setup.mqsc
+COPY --chmod=544 icc-shift.sh /etc/profile.d/icc-shift.sh
+
 RUN ["/home/mqm/mq-setup.sh", "QMgr01", "1414", "mqexplorers"]
 ENTRYPOINT ["/home/mqm/mq-start.sh", "QMgr01"]

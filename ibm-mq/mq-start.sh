@@ -20,7 +20,9 @@ isRunningQM() {
 
 start() {
   local qmgrName=$1
+
   su - mqm -c "strmqm ${qmgrName}"
+  source /var/scripts/init.sh ${qmgrName} || true
   isRunningQM ${qmgrName}
 }
 

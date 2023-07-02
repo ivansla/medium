@@ -1,2 +1,9 @@
 .idea
-**/ssl
+**/*.key
+**/*.pem
+**/*.crt
+**/*.csr
+**/*.srl
+**/*.jks
+**/*.pfx
+

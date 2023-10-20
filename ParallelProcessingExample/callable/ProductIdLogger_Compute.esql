@@ -10,7 +10,7 @@ CREATE COMPUTE MODULE ProductIdLogger_Compute
 
 	CREATE PROCEDURE CopyEntireMessage() BEGIN
 		DECLARE returnValue BOOLEAN;
-		DECLARE sleepTime INTEGER rand() * 10000;
+		DECLARE sleepTime INTEGER rand() * 1000;
 		
 		SET returnValue = SLEEP(sleepTime);	
 	END;

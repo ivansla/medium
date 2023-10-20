@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><mappingRoot xmlns="http://www.ibm.com/2008/ccl/Mapping" domainID="com.ibm.msl.mapping.xml" domainIDExtension="mb" mainMap="true" targetNamespace="default" version="8.0.5.0" xmlns:map="default">
+    <output path="/ProductList.xsd"/>
+    <namespaces>
+        <namespace kind="supplement" prefix="out" uri="https://www.refactorit.sk"/>
+    </namespaces>
+    <generation engine="xquery"/>
+    <mappingDeclaration name="MappingParallelization_GenerateInput">
+        <output namespace="https://www.refactorit.sk" path="mb:msg(product-list,assembly,XMLNSC,Properties)"/>
+        <create empty="true">
+            <output path="product-list/product"/>
+            <assign value="ThinkPad">
+                <output path="id"/>
+            </assign>
+        </create>
+        <create empty="true">
+            <output path="product-list/product"/>
+            <assign value="IdeaPad">
+                <output path="id"/>
+            </assign>
+        </create>
+    </mappingDeclaration>
+</mappingRoot>

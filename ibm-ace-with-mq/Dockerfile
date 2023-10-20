@@ -19,7 +19,7 @@ RUN groupadd --gid 1001 aceadmin
 RUN useradd --uid 1001 --gid aceadmin -s /bin/bash --create-home --home-dir /home/aceadmin aceadmin
 
 ARG ACE_FILE=12.0.8.0-ACE-LINUX64-DEVELOPER.tar.gz
-ARG ACE_URL=http://192.168.15.8:9000/$ACE_FILE
+ARG ACE_URL=http://192.168.15.5:9000/$ACE_FILE
 
 RUN export DEBIAN_FRONTEND=noninteractive \
   # Download and extract the ACE installation files \

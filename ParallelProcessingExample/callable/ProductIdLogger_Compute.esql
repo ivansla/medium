@@ -1,0 +1,17 @@
+BROKER SCHEMA callable
+
+
+CREATE COMPUTE MODULE ProductIdLogger_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		DECLARE returnValue BOOLEAN;
+		DECLARE sleepTime INTEGER rand() * 10000;
+		
+		SET returnValue = SLEEP(sleepTime);	
+	END;
+END MODULE;

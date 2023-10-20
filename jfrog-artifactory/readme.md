@@ -1,1 +1,1 @@
-$systemctl start artifactory.service
+systemctl start artifactory.service

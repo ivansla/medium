@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><mappingRoot xmlns="http://www.ibm.com/2008/ccl/Mapping" domainID="com.ibm.msl.mapping.xml" domainIDExtension="mb" mainMap="true" targetNamespace="default" version="8.0.5.0" xmlns:map="default">
+    <input path="/ProductList.xsd"/>
+    <output path="/ProductList.xsd"/>
+    <namespaces>
+        <namespace kind="supplement" prefix="io" uri="https://www.refactorit.sk"/>
+        <namespace kind="extension" prefix="fn" uri="http://www.w3.org/2005/xpath-functions"/>
+    </namespaces>
+    <generation engine="xquery"/>
+    <mappingDeclaration name="MappingParallelization_BrandAppender">
+        <input namespace="https://www.refactorit.sk" path="mb:msg(product,assembly,XMLNSC,Properties)" var="MessageAssembly"/>
+        <output namespace="https://www.refactorit.sk" path="mb:msg(product,assembly,XMLNSC,Properties)" var="MessageAssembly1"/>
+        <function ref="fn:concat">
+            <input path="$MessageAssembly/product/id" var="id"/>
+            <output path="$MessageAssembly1/product/id"/>
+            <param name="string1" value="'Lenovo '"/>
+            <param name="string2" value="$id"/>
+        </function>
+    </mappingDeclaration>
+</mappingRoot>

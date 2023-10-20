@@ -1,0 +1,80 @@
+---
+swagger: "2.0"
+info:
+  version: "1"
+  title: "Validation web service"
+basePath: "/rest-validation-example"
+paths:
+  /{version}/Validation/{username}:
+    post:
+      tags:
+      - "Validation"
+      summary: "Validation for post example"
+      operationId: "ValidationPost"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "idNumber"
+        in: "query"
+        description: ""
+        required: true
+        type: "integer"
+      - name: "message"
+        in: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/ValidationRequest"
+      - name: "version"
+        in: "path"
+        description: "The requested API version"
+        required: true
+        type: "string"
+        default: "2"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ValidationResponse"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal Server Error"
+          schema: 
+            $ref: "#/definitions/ProblemDetails"
+definitions:
+  ValidationRequest:
+    type: "object"
+    properties:
+      messageId:
+        description: "GUID"
+        type: "string"
+      messageBody:
+        description: "Body"
+        type: "string"
+  ValidationResponse:
+    type: "object"
+    properties:
+      messageId:
+        description: "GUID"
+        type: "string"
+      status:
+        description: "Validation Status"
+        type: "string"
+  ProblemDetails:
+    type: "object"
+    properties:
+      PsbMessageId:
+        type: "string"
+      Error:
+        type: "string"
+

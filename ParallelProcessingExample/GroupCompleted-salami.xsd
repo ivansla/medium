@@ -1,0 +1,78 @@
+<xs:schema attributeFormDefault="unqualified" 
+	elementFormDefault="qualified" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:pl="https://www.refactorit.sk" >
+	
+  <xs:import namespace="https://www.refactorit.sk" schemaLocation="ProductList.xsd" />
+<!-- Always use SalamiSlice for xsd model, it allows you to select every type defined -->
+
+  <xs:element name="GroupId" type="xs:string"/>
+  <xs:element name="GroupName" type="xs:string"/>
+  <xs:element name="GroupCreationTime" type="xs:int"/>
+  <xs:element name="GroupCompleteTime" type="xs:int"/>
+  <xs:element name="GroupOutputTime" type="xs:int"/>
+  <xs:element name="GroupStatus" type="xs:string"/>
+  <xs:element name="ReplyId" type="xs:string"/>
+  <xs:element name="RequestSendTime" type="xs:long"/>
+  <xs:element name="ReplyReceiptTime" type="xs:long"/>
+  <xs:element name="CallableFlowRequestFolder">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="ReplyId"/>
+        <xs:element ref="RequestSendTime"/>
+        <xs:element ref="ReplyReceiptTime"/>
+        <xs:element ref="Reply"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GroupProperties">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="GroupId"/>
+        <xs:element ref="GroupName"/>
+        <xs:element ref="GroupCreationTime"/>
+        <xs:element ref="GroupCompleteTime"/>
+        <xs:element ref="GroupOutputTime"/>
+        <xs:element ref="GroupStatus"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Context" type="xs:string"/>
+  <xs:element name="Replies">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="CallableFlowRequestFolder" maxOccurs="unbounded" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Group">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="GroupProperties"/>
+        <xs:element ref="Context"/>
+        <xs:element ref="Replies"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Reply">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Root"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Root">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="XMLNSC"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="XMLNSC">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="pl:product"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

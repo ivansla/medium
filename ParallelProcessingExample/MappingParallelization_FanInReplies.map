@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?><mappingRoot xmlns="http://www.ibm.com/2008/ccl/Mapping" domainID="com.ibm.msl.mapping.xml" domainIDExtension="mb" mainMap="true" targetNamespace="default" version="8.0.5.0" xmlns:map="default">
     <input path="jar:file://!com/ibm/etools/mft/map/xsds/assembly/Environment.xsd" var="var3"/>
-    <input path="/GroupCompleted-salami.xsd" var="var"/>
+    <input path="/GroupCompleted-salami.xsd" var="var6"/>
+    <input path="/ProductList.xsd" var="var5"/>
     <output path="jar:file://!com/ibm/etools/mft/map/xsds/assembly/Environment.xsd" var="var4"/>
     <output path="/ProductList.xsd" var="var1"/>
     <namespaces>
         <namespace kind="supplement" prefix="out" uri="http://www.ibm.com/iib/msl/json"/>
         <namespace kind="supplement" prefix="io" uri="https://www.refactorit.sk"/>
+        <namespace kind="supplement" prefix="in" uri="https://www.refactorit.sk/generic"/>
     </namespaces>
     <generation engine="xquery"/>
     <mappingDeclaration name="MappingParallelization_FanInReplies">
         <input path="$var3/mb:env(Environment)" var="Environment"/>
-        <input path="$var/mb:msg(Group,assembly,XMLNSC,Properties)" var="MessageAssembly"/>
+        <input path="$var6/mb:msg(Group,assembly,XMLNSC,Properties)" var="MessageAssembly">
+            <cast path="$MessageAssembly/Group/Replies/CallableFlowRequestFolder/Reply/Root/XMLNSC/product/type('genericType')" qualifier="{https://www.refactorit.sk}productType" ref="var5" var="genericType"/>
+        </input>
         <output path="$var4/mb:env(Environment)" var="Environment1"/>
         <output namespace="https://www.refactorit.sk" path="$var1/mb:msg(product-list,assembly,XMLNSC,Properties)" var="MessageAssembly1"/>
         <passthrough>
@@ -22,7 +26,7 @@
             <input path="$MessageAssembly/Group/Replies/CallableFlowRequestFolder"/>
             <output path="$MessageAssembly1/product-list/product"/>
             <move>
-                <input path="Reply/Root/XMLNSC/product/id"/>
+                <input path="Reply/Root/XMLNSC/spath('product',2)/id"/>
                 <output path="id"/>
             </move>
         </foreach>

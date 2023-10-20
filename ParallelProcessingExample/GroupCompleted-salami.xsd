@@ -4,6 +4,7 @@
 	xmlns:pl="https://www.refactorit.sk" >
 	
   <xs:import namespace="https://www.refactorit.sk" schemaLocation="ProductList.xsd" />
+  <!-- <xs:import namespace="https://www.refactorit.sk/generic" schemaLocation="generic.xsd" />-->
 <!-- Always use SalamiSlice for xsd model, it allows you to select every type defined -->
 
   <xs:element name="GroupId" type="xs:string"/>

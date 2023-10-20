@@ -2,21 +2,27 @@
 	elementFormDefault="qualified" 
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
 	xmlns="https://www.refactorit.sk" 
-	targetNamespace="https://www.refactorit.sk">
+	targetNamespace="https://www.refactorit.sk" 
+	xmlns:pl="https://www.refactorit.sk/generic">
 	
-  <xs:element name="id" type="xs:string"/>
-  <xs:element name="product">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element ref="id"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="product-list">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element ref="product" maxOccurs="unbounded" minOccurs="0"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
+	<xs:import namespace="https://www.refactorit.sk/generic" schemaLocation="generic.xsd" />
+	
+  <xs:complexType name="productType">
+  <xs:complexContent>
+  <xs:extension base="pl:genericType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="id"/>
+    </xs:sequence>
+    </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="product-listType">
+    <xs:sequence>
+      <xs:element ref="product" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:element name="product" type="productType"/>
+  <xs:element name="product-list" type="product-listType"/>
+  
 </xs:schema>

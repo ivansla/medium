@@ -1,12 +1,7 @@
 <xs:schema attributeFormDefault="unqualified" 
 	elementFormDefault="qualified" 
-	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-	xmlns:pl="https://www.refactorit.sk" >
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	
-  <xs:import namespace="https://www.refactorit.sk" schemaLocation="ProductList.xsd" />
-  <!-- <xs:import namespace="https://www.refactorit.sk/generic" schemaLocation="generic.xsd" />-->
-<!-- Always use SalamiSlice for xsd model, it allows you to select every type defined -->
-
   <xs:element name="GroupId" type="xs:string"/>
   <xs:element name="GroupName" type="xs:string"/>
   <xs:element name="GroupCreationTime" type="xs:int"/>
@@ -72,7 +67,7 @@
   <xs:element name="XMLNSC">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="pl:product"/>
+        <xs:any/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>

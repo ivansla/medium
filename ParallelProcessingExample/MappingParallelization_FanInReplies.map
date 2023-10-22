@@ -15,7 +15,7 @@
         <input path="$var6/mb:msg(Group,assembly,XMLNSC,Properties)" var="MessageAssembly">
             <cast path="$MessageAssembly/Group/Replies/CallableFlowRequestFolder/Reply/Root/XMLNSC/product/type('genericType')" qualifier="{https://www.refactorit.sk}productType" var="genericType"/>
             <cast path="$MessageAssembly/Group/Replies/CallableFlowRequestFolder/Reply/Root/XMLNSC/genericContainer/type('genericType')" qualifier="productType" var="genericType1"/>
-            <cast path="$MessageAssembly/Group/Replies/CallableFlowRequestFolder/Reply/Root/XMLNSC/any" qualifier="product" ref="var5" var="any"/>
+            <cast path="$MessageAssembly/Group/Replies/CallableFlowRequestFolder/Reply/Root/XMLNSC/any" qualifier="{https://www.refactorit.sk}product" ref="var5" var="any1"/>
         </input>
         <output path="$var4/mb:env(Environment)" var="Environment1"/>
         <output namespace="https://www.refactorit.sk" path="$var1/mb:msg(product-list,assembly,XMLNSC,Properties)" var="MessageAssembly1"/>

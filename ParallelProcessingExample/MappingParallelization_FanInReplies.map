@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><mappingRoot xmlns="http://www.ibm.com/2008/ccl/Mapping" domainID="com.ibm.msl.mapping.xml" domainIDExtension="mb" mainMap="true" targetNamespace="default" version="8.0.5.0" xmlns:map="default">
-    <input path="jar:file://!com/ibm/etools/mft/map/xsds/assembly/Environment.xsd" var="var3"/>
-    <input path="/GroupCompleted-salami.xsd" var="var6"/>
-    <input path="/ProductList.xsd" var="var5"/>
-    <output path="jar:file://!com/ibm/etools/mft/map/xsds/assembly/Environment.xsd" var="var4"/>
+    <input path="/group-completed.xsd" var="var2"/>
+    <input path="/ProductList.xsd" var="var"/>
     <output path="/ProductList.xsd" var="var1"/>
     <namespaces>
         <namespace kind="supplement" prefix="out" uri="http://www.ibm.com/iib/msl/json"/>
@@ -11,19 +9,10 @@
     </namespaces>
     <generation engine="xquery"/>
     <mappingDeclaration name="MappingParallelization_FanInReplies">
-        <input path="$var3/mb:env(Environment)" var="Environment"/>
-        <input path="$var6/mb:msg(Group,assembly,XMLNSC,Properties)" var="MessageAssembly">
-            <cast path="$MessageAssembly/Group/Replies/CallableFlowRequestFolder/Reply/Root/XMLNSC/product/type('genericType')" qualifier="{https://www.refactorit.sk}productType" var="genericType"/>
-            <cast path="$MessageAssembly/Group/Replies/CallableFlowRequestFolder/Reply/Root/XMLNSC/genericContainer/type('genericType')" qualifier="productType" var="genericType1"/>
-            <cast path="$MessageAssembly/Group/Replies/CallableFlowRequestFolder/Reply/Root/XMLNSC/any" qualifier="{https://www.refactorit.sk}product" ref="var5" var="any1"/>
+        <input path="$var2/mb:msg(Group,assembly,XMLNSC,Properties)" var="MessageAssembly">
+            <cast path="$MessageAssembly/Group/Replies/CallableFlowRequestFolder/Reply/Root/XMLNSC/any" qualifier="{https://www.refactorit.sk}product" ref="var" var="any"/>
         </input>
-        <output path="$var4/mb:env(Environment)" var="Environment1"/>
         <output namespace="https://www.refactorit.sk" path="$var1/mb:msg(product-list,assembly,XMLNSC,Properties)" var="MessageAssembly1"/>
-        <passthrough>
-            <input path="$Environment/."/>
-            <output path="$Environment1/."/>
-            <updates/>
-        </passthrough>
         <foreach>
             <input path="$MessageAssembly/Group/Replies/CallableFlowRequestFolder"/>
             <output path="$MessageAssembly1/product-list/product"/>

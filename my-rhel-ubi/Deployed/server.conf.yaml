@@ -1,0 +1,34 @@
+---
+trace: 'debug' # choose 1 of : none|debug|diagnostic
+traceSize: '1G' # Set the service trace size
+remoteDefaultQueueManager: '{PsbPolicyProject}:MQEndpointPolicy'
+
+BrokerRegistry:
+  allowSSLv3: false
+  mqKeyRepository: '/home/aceuser/ace-server/client'
+
+ResourceManagers:
+  GlobalCache:
+    defaultCacheType: 'local'
+
+  ActivityLogManager:
+    activityLogEnabled: false
+
+  JVM:
+    jvmSystemProperty: '-Djavax.net.debug=true'
+    keystoreFile: '/home/aceuser/ace-server/keystore.jks'
+    keystorePass: 'brokerKeystore::password'
+    truststoreFile: '/home/aceuser/ace-server/truststore.jks'
+    truststorePass: 'brokerTruststore::password'
+
+Events:
+  BusinessEvents:    # Business monitoring events
+    File:
+      enabled: true       # Set true or false, default false
+      outputFormat: 'json' # Set comma separated list of one or more of : json,xml. Defaults to 'json'
+Monitoring:
+  MessageFlow:
+    publicationOn: 'active'
+
+RecordReplay:
+  recordReplayEnabled: false

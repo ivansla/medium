@@ -12,8 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM ubuntu:20.04
+FROM registry.access.redhat.com/ubi8/ubi-minimal
 VOLUME /home
+
+RUN microdnf update -y && microdnf install util-linux python3.9 sudo passwd vim openssh-server curl bc tar iputils procps net-tools tar hostname findutils less nano nc && microdnf clean all
 
 # can solve problem for creating keystore on AMD processors. https://github.com/ibm-messaging/mq-container/issues/462
 ENV ICC_SHIFT=3
@@ -21,51 +23,21 @@ ENV ICC_SHIFT=3
 RUN groupadd --gid 1000 mqm
 RUN groupadd --gid 2000 mqexplorers
 RUN useradd --uid 1000 --gid mqm -s /bin/bash --create-home --home-dir /home/mqm mqm
+RUN useradd --uid 1200 --gid mqm -s /bin/bash --create-home --home-dir /home/ivansla ivansla
+RUN useradd --uid 1400 --gid mqexplorers -s /bin/bash --create-home --home-dir /home/mqclient mqclient
 RUN usermod -G mqm root
 
 # important, don't put mqexplorer user into mqm group or mqexplorer will not work
 RUN useradd --uid 3000 --groups mqexplorers -s /bin/bash --create-home --home-dir /home/mqexplorer mqexplorer
 
 # The URL to download the MQ installer from in tar.gz format
-ARG MQ_FILE=mqadv_dev920_ubuntu_x86-64.tar.gz
+ARG MQ_FILE=IBM_MQ_9.2.0.2_LINUX_X86-64.tar.gz
 ARG MQ_URL=http://192.168.15.10:9000/$MQ_FILE
 #ARG MQ_URL=https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqadv/$MQ_FILE
-ARG MQ_PACKAGES="./ibmmq-jre_9.2.5.0_amd64.deb ./ibmmq-runtime_9.2.5.0_amd64.deb ./ibmmq-gskit_9.2.5.0_amd64.deb ./ibmmq-server_9.2.5.0_amd64.deb ./ibmmq-java_9.2.5.0_amd64.deb ./ibmmq-samples_9.2.5.0_amd64.deb"
+ARG MQ_PACKAGES="./MQSeriesJRE-9.2.0-2.x86_64.rpm ./MQSeriesRuntime-9.2.0-2.x86_64.rpm ./MQSeriesGSKit-9.2.0-2.x86_64.rpm ./MQSeriesServer-9.2.0-2.x86_64.rpm ./MQSeriesJava-9.2.0-2.x86_64.rpm ./MQSeriesSamples-9.2.0-2.x86_64.rpm"
 
-RUN export DEBIAN_FRONTEND=noninteractive \
-  # Optional: Update the command prompt
-  && echo "mq:9.0" > /etc/debian_chroot \
-  # Install additional packages required by MQ, this install process and the runtime scripts
-  && apt-get update -y \
-  && apt-get install -y --no-install-recommends \
-    bash \
-    sudo \
-    systemd \
-    net-tools \
-    gnupg \
-    bc \
-    coreutils \
-    curl \
-    debianutils \
-    findutils \
-    gawk \
-    grep \
-    libc-bin \
-    mount \
-    passwd \
-    procps \
-    rpm \
-    sed \
-    tar \
-    vim \
-    telnet \
-    iputils-ping \
-    rsyslog \
-    less \
-    util-linux \
-    ca-certificates \
   # Setting default shell to bash for new users \
-  &&  sed -i 's/SHELL=\/bin\/sh/SHELL=\/bin\/bash/g' /etc/default/useradd \
+RUN  sed -i 's/SHELL=\/bin\/sh/SHELL=\/bin\/bash/g' /etc/default/useradd \
   # Download and extract the MQ installation files \
   && mkdir -p /tmp/mq \
   && cd /tmp/mq \
@@ -75,12 +47,24 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   #   Accept the MQ license
   && ./mqlicense.sh -text_only -accept \
   #   Install MQ using the DEB packages
-  && apt install ./$MQ_PACKAGES \
+  && rpm -Uvh $MQ_PACKAGES \
   #   Recommended: Set the default MQ installation (makes the MQ commands available on the PATH)
   && /opt/mqm/bin/setmqinst -p /opt/mqm -i \
   # Cleanup
   && rm -rf /tmp/mq \
   && rm -rf /var/lib/apt/lists/*
+
+RUN ssh-keygen -A
+RUN /usr/sbin/sshd
+
+RUN echo "ivansla ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ivansla
+RUN cat >> /etc/ssh/sshd_config <<EOF
+Match Host "*" User "ivansla"
+    AllowGroups ivansla
+    AllowUsers ivansla
+    AuthenticationMethods publickey password
+    AuthorizedKeysFile /home/ivansla/.ssh/authorized_keys
+EOF
 
 COPY --chmod=500 mq-setup.sh /home/mqm/mq-setup.sh
 COPY --chmod=500 mq-start.sh /home/mqm/mq-start.sh
@@ -88,5 +72,4 @@ COPY --chmod=444 mq-setup.mqsc /home/mqm/mq-setup.mqsc
 COPY --chmod=544 icc-shift.sh /etc/profile.d/icc-shift.sh
 
 RUN ["/home/mqm/mq-setup.sh", "QMgr01", "1414", "mqexplorers"]
-#ENTRYPOINT ["/home/mqm/mq-start.sh", "QMgr01"]
-ENTRYPOINT ["bash", "-c", "ln -s /usr/lib/x86_64-linux-gnu/libtinfo.so.6 /usr/lib/x86_64-linux-gnu/libtinfo.so.5 && /home/mqm/mq-start.sh QMgr01"]
+ENTRYPOINT ["/home/mqm/mq-start.sh", "QMgr01"]

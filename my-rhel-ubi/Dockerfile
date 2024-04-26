@@ -16,7 +16,8 @@ RUN microdnf update -y && microdnf install util-linux curl tar iputils procps ne
 ARG USERNAME
 ARG PASSWORD
 # Download and reference the ACE-LINUX64-DEVELOPER.tar.gz from here https://www.ibm.com/resources/mrs/assets?source=swg-wmbfd eg.
-ARG DOWNLOAD_URL=https://ak-delivery04-mul.dhe.ibm.com/sdfdl/v2/sar/CM/WS/0bvuo/0/Xa.2/Xb.jusyLTSp44S03g8XMKbL_4dkiucpdHPdCkh9Tm2KSyqQS3aKP2iIuOnNrnk/Xc.CM/WS/0bvuo/0/12.0-ACE-LINUXX64-12.0.11.0.tar.gz/Xd./Xf.LPR.D1VK/Xg.12613354/Xi.habanero/XY.habanero/XZ.ztdyA3_MSBuBz2gIT-KDuJnhwXm9gtz7/12.0-ACE-LINUXX64-12.0.11.0.tar.gz
+#ARG DOWNLOAD_URL=https://ak-delivery04-mul.dhe.ibm.com/sdfdl/v2/sar/CM/WS/0bvuo/0/Xa.2/Xb.jusyLTSp44S03g8XMKbL_4dkiucpdHPdCkh9Tm2KSyqQS3aKP2iIuOnNrnk/Xc.CM/WS/0bvuo/0/12.0-ACE-LINUXX64-12.0.11.0.tar.gz/Xd./Xf.LPR.D1VK/Xg.12613354/Xi.habanero/XY.habanero/XZ.ztdyA3_MSBuBz2gIT-KDuJnhwXm9gtz7/12.0-ACE-LINUXX64-12.0.11.0.tar.gz
+ARG DOWNLOAD_URL=http://192.168.15.12:9000/12.0-ACE-LINUXX64-12.0.11.0.tar.gz
 
 RUN mkdir -p /opt/ibm/ace-12 \
     && curl ${DOWNLOAD_URL} | \

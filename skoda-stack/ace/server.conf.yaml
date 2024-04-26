@@ -1,0 +1,48 @@
+---
+trace: 'debug' # choose 1 of : none|debug|diagnostic
+traceSize: '1G' # Set the service trace size
+#remoteDefaultQueueManager: '{PsbPolicyProject}:MQEndpointPolicy'
+
+#BrokerRegistry:
+#  allowSSLv3: false
+  #mqKeyRepository: '/home/aceuser/ace-server/client'
+
+ResourceManagers:
+  GlobalCache:
+    defaultCacheType: 'local'
+
+  ActivityLogManager:
+    activityLogEnabled: false
+
+#  JVM:
+#    jvmSystemProperty: '-Djavax.net.debug=true'
+#    keystoreFile: '/home/aceuser/ace-server/keystore.jks'
+#    keystorePass: 'brokerKeystore::password'
+#    truststoreFile: '/home/aceuser/ace-server/truststore.jks'
+#    truststorePass: 'brokerTruststore::password'
+
+Events:
+  OperationalEvents:
+    MQTT:
+      policy: '{PsbPolicyProject}:mqtt_statistics'      # Specify a {policy project}:policy
+      enabled: true  # Set true or false, default false
+      #format: ''      # Set string or none
+  BusinessEvents:    # Business monitoring events
+    File:
+      enabled: true       # Set true or false, default false
+      outputFormat: 'json' # Set comma separated list of one or more of : json,xml. Defaults to 'json'
+Monitoring:
+  MessageFlow:
+    publicationOn: 'active'
+
+RecordReplay:
+  recordReplayEnabled: false
+
+Statistics:
+  Snapshot:
+    publicationOn: 'active'      # choose 1 of : active|inactive, explictly set 'active'. If unset will default to 'inactive'
+    nodeDataLevel: 'basic'       # choose 1 of : none|basic|advanced, explictly set 'basic'. If unset will default to 'none'
+    outputFormat: 'json'         # choose comma separated list of one or more of : csv,json,xml,usertrace. Explictly set to 'json' for WebUI. If unset will default to ''       # When set to true the average values for each statistic are included in the written output.
+  Resource:
+    reportingOn: true            # choose 1 of : true|false, Set to 'true'. If unset will default to 'false'
+    #averages: true              # When set to true the average values for each stat

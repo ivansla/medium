@@ -21,10 +21,10 @@ isRunningQM() {
 start() {
   local qmgrName=$1
 
+  /usr/sbin/sshd
   su - mqm -c "strmqm ${qmgrName}"
   source /var/scripts/init.sh ${qmgrName} || true
   isRunningQM ${qmgrName}
 }
 
-start $1 &
-exec /sbin/init
+start $1

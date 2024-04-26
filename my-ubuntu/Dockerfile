@@ -54,4 +54,5 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   &&  sed -i 's/SHELL=\/bin\/sh/SHELL=\/bin\/bash/g' /etc/default/useradd \
   && echo "ivansla ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
-CMD ["/bin/bash"]
+ENTRYPOINT ["bash", "-c", "sleep 600"]
+#CMD ["/bin/bash"]

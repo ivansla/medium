@@ -1,0 +1,97 @@
+version: "3.7"
+services:
+  amlen-server-01:
+    build:
+      context: /home/ivansla/Repositories/psb-config/tools/amlen-deployment/amlen-server/
+      args:
+        ENV: localhost
+    image: amlen-server
+    env_file:
+      - /home/ivansla/Repositories/psb-config/tools/amlen-deployment/amlen-server/imaserver-docker.env
+    cap_add:
+      - SYS_ADMIN
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    networks:
+      admin:
+        ipv4_address: 10.1.1.11
+      discovery:
+        ipv4_address: 192.20.10.11
+      replication:
+        ipv4_address: 192.20.20.11
+      external-replication:
+        ipv4_address: 192.20.30.11
+    volumes:
+      - /home/ivansla/Tools/var/amlen-server-01:/var/lib/amlen-server
+  amlen-server-02:
+    build:
+      context: /home/ivansla/Repositories/psb-config/tools/amlen-deployment/amlen-server/
+      args:
+        ENV: localhost
+    image: amlen-server
+    env_file:
+      - /home/ivansla/Repositories/psb-config/tools/amlen-deployment/amlen-server/imaserver-docker.env
+    cap_add:
+      - SYS_ADMIN
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    networks:
+      admin:
+        ipv4_address: 10.1.1.12
+      discovery:
+        ipv4_address: 192.20.10.12
+      replication:
+        ipv4_address: 192.20.20.12
+      external-replication:
+        ipv4_address: 192.20.30.12
+    volumes:
+      - /home/ivansla/Tools/var/amlen-server-02:/var/lib/amlen-server
+  amlen-webui:
+    build: /home/ivansla/Repositories/psb-config/tools/amlen-deployment/amlen-webui/
+    image: amlen-webui
+    env_file:
+      - /home/ivansla/Repositories/psb-config/tools/amlen-deployment/amlen-webui/imawebui-docker.env
+    cap_add:
+      - SYS_ADMIN
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    networks:
+      admin:
+        ipv4_address: 10.1.1.13
+    volumes:
+      - /home/ivansla/Tools/var/amlen-webui/:/var/lib/amlen-webui/diag/logs/
+  ace:
+    build:
+      context: ./ace/
+      no_cache: true
+    image: ace
+    network_mode: "host"
+#    volumes:
+#      - /home/ivansla/Tools/var/aceserver/:/home/aceuser/ace-server/
+networks:
+  admin:
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.1.1.0/24"
+  discovery:
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.20.10.0/24"
+  replication:
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.20.20.0/24"
+  external-replication:
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.20.30.0/24"
